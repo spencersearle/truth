@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>truth</title>
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,106 +13,75 @@
         }
 
         body {
-            font-family: 'Comfortaa', sans-serif;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #ffffff 0%, #87CEEB 40%, #FFDAB9 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(160deg, #ffffff 0%, #f0f6fc 30%, #ffffff 50%, #fdf5ef 70%, #ffffff 85%, #edf4fb 100%);
             color: #333;
         }
 
-        /* Landing page */
-        #landing {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            width: 100%;
-            padding: 2rem;
-            text-align: center;
-            animation: fadeIn 0.8s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .logo {
-            font-size: 5rem;
-            font-weight: 700;
-            color: #5B9BD5;
-            margin-bottom: 1rem;
-            letter-spacing: 4px;
-        }
-
-        .tagline {
-            font-size: 1.15rem;
-            color: #6a7a8a;
-            margin-bottom: 3rem;
-            max-width: 480px;
-            line-height: 1.7;
-            font-weight: 400;
-        }
-
-        .start-btn {
-            font-family: 'Comfortaa', sans-serif;
-            font-size: 1rem;
-            font-weight: 600;
-            padding: 1rem 2.5rem;
-            border: none;
-            border-radius: 50px;
-            background: linear-gradient(135deg, #5B9BD5, #7DB8E0);
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(91, 155, 213, 0.3);
-        }
-
-        .start-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(91, 155, 213, 0.4);
-        }
-
-        .scripture-hint {
-            margin-top: 2.5rem;
-            font-size: 0.85rem;
-            color: #8a9aaa;
-            font-style: italic;
-            max-width: 400px;
-            line-height: 1.6;
-        }
-
-        /* Chat page */
-        #chat-page {
-            display: none;
-            flex-direction: column;
-            width: 100%;
-            max-width: 800px;
-            height: 100vh;
-            padding: 1.5rem;
-        }
-
-        .chat-header {
+        /* Header */
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 60px;
+            padding: 0 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(91, 155, 213, 0.08);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(91, 155, 213, 0.15);
-            margin-bottom: 1rem;
         }
 
-        .chat-logo {
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .sidebar-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #5B9BD5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .sidebar-toggle:hover {
+            background: rgba(91, 155, 213, 0.1);
+        }
+
+        .sidebar-toggle svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .header-logo {
+            font-family: 'Comfortaa', sans-serif;
             font-size: 1.8rem;
             font-weight: 700;
             color: #5B9BD5;
             letter-spacing: 2px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .header-logo:hover {
+            opacity: 0.8;
         }
 
         .new-chat-btn {
-            font-family: 'Comfortaa', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 0.75rem;
             font-weight: 600;
             padding: 0.5rem 1rem;
@@ -129,10 +98,109 @@
             color: white;
         }
 
+        /* Layout */
+        .app-layout {
+            display: flex;
+            height: 100vh;
+            padding-top: 60px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            min-width: 280px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(91, 155, 213, 0.08);
+            padding: 2rem 1.25rem;
+            transition: margin-left 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .sidebar.hidden {
+            margin-left: -280px;
+        }
+
+        .sidebar-label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #aab;
+            padding: 0 0.75rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.85rem 1rem;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #444;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-link:hover {
+            background: rgba(91, 155, 213, 0.08);
+            color: #5B9BD5;
+        }
+
+        .sidebar-link-icon {
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        /* Main chat area */
+        .chat-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            min-width: 0;
+        }
+
+        .chat-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 4rem;
+            overflow: hidden;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 3rem 0 2rem;
+            flex-shrink: 0;
+        }
+
+        .hero-title {
+            font-family: 'Comfortaa', sans-serif;
+            font-size: 4rem;
+            font-weight: 700;
+            color: #5B9BD5;
+            letter-spacing: 6px;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            color: #8a9aaa;
+            font-weight: 400;
+        }
+
+        /* Messages */
         .messages {
             flex: 1;
             overflow-y: auto;
-            padding: 1rem 0;
+            padding: 1.5rem 0;
             scroll-behavior: smooth;
         }
 
@@ -150,12 +218,17 @@
         }
 
         .message {
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.5rem;
             animation: slideIn 0.3s ease;
         }
 
         @keyframes slideIn {
             from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -168,8 +241,8 @@
             background: linear-gradient(135deg, #5B9BD5, #7DB8E0);
             color: white;
             border-radius: 20px 20px 4px 20px;
-            max-width: 75%;
-            padding: 1rem 1.25rem;
+            max-width: 70%;
+            padding: 1.25rem 1.5rem;
             font-size: 0.9rem;
             line-height: 1.6;
         }
@@ -179,8 +252,8 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(91, 155, 213, 0.1);
             border-radius: 20px 20px 20px 4px;
-            max-width: 85%;
-            padding: 1.25rem 1.5rem;
+            max-width: 80%;
+            padding: 1.5rem 1.75rem;
             font-size: 0.9rem;
             line-height: 1.8;
             color: #444;
@@ -218,8 +291,30 @@
             30% { transform: translateY(-8px); }
         }
 
+        .welcome-message {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: #7a8a9a;
+        }
+
+        .welcome-message h2 {
+            color: #5B9BD5;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .welcome-message p {
+            font-size: 0.85rem;
+            line-height: 1.7;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+
+        /* Input area */
         .input-area {
-            padding-top: 1rem;
+            flex-shrink: 0;
+            padding: 1.5rem 0 2rem;
         }
 
         .input-wrapper {
@@ -229,7 +324,7 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(91, 155, 213, 0.15);
             border-radius: 28px;
-            padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+            padding: 0.75rem 0.75rem 0.75rem 1.75rem;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
             transition: border-color 0.3s ease;
         }
@@ -242,8 +337,8 @@
             flex: 1;
             border: none;
             outline: none;
-            font-family: 'Comfortaa', sans-serif;
-            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
             background: transparent;
             color: #333;
         }
@@ -253,7 +348,7 @@
         }
 
         .send-btn {
-            font-family: 'Comfortaa', sans-serif;
+            font-family: 'Inter', sans-serif;
             width: 44px;
             height: 44px;
             border: none;
@@ -293,7 +388,7 @@
         }
 
         .suggestion {
-            font-family: 'Comfortaa', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 0.75rem;
             padding: 0.6rem 1rem;
             border: 1px solid rgba(91, 155, 213, 0.2);
@@ -309,30 +404,23 @@
             border-color: #5B9BD5;
         }
 
-        .welcome-message {
-            text-align: center;
-            padding: 3rem 1rem;
-            color: #7a8a9a;
-        }
+        /* Mobile */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                bottom: 0;
+                z-index: 90;
+                background: rgba(255, 255, 255, 0.95);
+            }
 
-        .welcome-message h2 {
-            color: #5B9BD5;
-            font-size: 1.3rem;
-            margin-bottom: 0.75rem;
-            font-weight: 600;
-        }
+            .sidebar.hidden {
+                margin-left: -280px;
+            }
 
-        .welcome-message p {
-            font-size: 0.85rem;
-            line-height: 1.7;
-            max-width: 450px;
-            margin: 0 auto;
-        }
-
-        @media (max-width: 600px) {
-            .logo { font-size: 3.5rem; }
-            .tagline { font-size: 1rem; }
-            #chat-page { padding: 1rem; }
+            .hero-title { font-size: 2.8rem; }
+            .chat-content { padding: 1.5rem 1.5rem; }
             .message.user .bubble,
             .message.assistant .bubble { max-width: 90%; }
         }
@@ -340,71 +428,100 @@
 </head>
 <body>
 
-    <!-- Landing Page -->
-    <div id="landing">
-        <div class="logo">truth</div>
-        <p class="tagline">
-            Discover eternal truth through the restored gospel of Jesus Christ. Ask questions, explore scripture, and deepen your understanding.
-        </p>
-        <button class="start-btn" onclick="startChat()">Begin Your Search</button>
-        <p class="scripture-hint">
-            "And ye shall know the truth, and the truth shall make you free." — John 8:32
-        </p>
-    </div>
-
-    <!-- Chat Page -->
-    <div id="chat-page">
-        <div class="chat-header">
-            <div class="chat-logo">truth</div>
-            <button class="new-chat-btn" onclick="resetChat()">new conversation</button>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="header-left">
+            <button class="sidebar-toggle" onclick="toggleSidebar()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <a class="header-logo" onclick="goHome()">truth</a>
         </div>
+        <button class="new-chat-btn" onclick="resetChat()">new conversation</button>
+    </header>
 
-        <div class="messages" id="messages">
-            <div class="welcome-message" id="welcome">
-                <h2>How can I help you today?</h2>
-                <p>Ask about scripture, doctrine, gospel principles, or anything you'd like to understand better through the light of the restored gospel.</p>
+    <!-- App Layout -->
+    <div class="app-layout">
+
+        <!-- Sidebar -->
+        <aside class="sidebar hidden" id="sidebar">
+            <div class="sidebar-label">Explore</div>
+            <a class="sidebar-link" href="/about">
+                <span class="sidebar-link-icon">&#x1F4A1;</span>
+                What is Truth?
+            </a>
+            <a class="sidebar-link" href="/scriptures">
+                <span class="sidebar-link-icon">&#x1F4D6;</span>
+                Words of Truth
+            </a>
+        </aside>
+
+        <!-- Main Chat -->
+        <div class="chat-main">
+            <div class="chat-content">
+
+                <!-- Hero -->
+                <div class="hero">
+                    <h1 class="hero-title">truth</h1>
+                    <p class="hero-subtitle">Discover eternal truth through the restored gospel of Jesus Christ.</p>
+                </div>
+
+                <!-- Messages -->
+                <div class="messages" id="messages">
+                    <div class="welcome-message" id="welcome">
+                        <h2>How can I help you today?</h2>
+                        <p>Ask about scripture, doctrine, gospel principles, or anything you'd like to understand better through the light of the restored gospel.</p>
+                    </div>
+                </div>
+
+                <div class="typing-indicator" id="typing">
+                    <span></span><span></span><span></span>
+                </div>
+
+                <!-- Input -->
+                <div class="input-area">
+                    <div class="input-wrapper">
+                        <input
+                            type="text"
+                            id="user-input"
+                            placeholder="Ask about scripture, doctrine, or gospel questions..."
+                            autocomplete="off"
+                            autofocus
+                        />
+                        <button class="send-btn" id="send-btn" onclick="sendMessage()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="suggestions" id="suggestions">
+                        <button class="suggestion" onclick="askSuggestion(this)">What is the Book of Mormon?</button>
+                        <button class="suggestion" onclick="askSuggestion(this)">How can I receive personal revelation?</button>
+                        <button class="suggestion" onclick="askSuggestion(this)">What is the plan of salvation?</button>
+                        <button class="suggestion" onclick="askSuggestion(this)">Who is Jesus Christ?</button>
+                    </div>
+                </div>
+
             </div>
         </div>
 
-        <div class="typing-indicator" id="typing">
-            <span></span><span></span><span></span>
-        </div>
-
-        <div class="input-area">
-            <div class="input-wrapper">
-                <input
-                    type="text"
-                    id="user-input"
-                    placeholder="Ask about scripture, doctrine, or gospel questions..."
-                    autocomplete="off"
-                    autofocus
-                />
-                <button class="send-btn" id="send-btn" onclick="sendMessage()">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="22" y1="2" x2="11" y2="13"></line>
-                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                    </svg>
-                </button>
-            </div>
-            <div class="suggestions" id="suggestions">
-                <button class="suggestion" onclick="askSuggestion(this)">What is the Book of Mormon?</button>
-                <button class="suggestion" onclick="askSuggestion(this)">How can I receive personal revelation?</button>
-                <button class="suggestion" onclick="askSuggestion(this)">What is the plan of salvation?</button>
-                <button class="suggestion" onclick="askSuggestion(this)">Who is Jesus Christ?</button>
-            </div>
-        </div>
     </div>
 
     <script>
         const sessionId = crypto.randomUUID();
         let isStreaming = false;
 
-        function startChat() {
-            document.getElementById('landing').style.display = 'none';
-            const chatPage = document.getElementById('chat-page');
-            chatPage.style.display = 'flex';
-            chatPage.style.animation = 'fadeIn 0.5s ease';
+        function goHome() {
+            // Close sidebar and reset view
+            document.getElementById('sidebar').classList.add('hidden');
             document.getElementById('user-input').focus();
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('hidden');
         }
 
         function askSuggestion(btn) {
@@ -487,13 +604,9 @@
         }
 
         function formatText(text) {
-            // Convert markdown-like formatting to HTML
             let html = escapeHtml(text);
-            // Bold
             html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            // Italic
             html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-            // Line breaks
             html = html.replace(/\n\n/g, '<br><br>');
             html = html.replace(/\n/g, '<br>');
             return html;
@@ -530,7 +643,6 @@
             document.getElementById('user-input').focus();
         }
 
-        // Enter key to send
         document.getElementById('user-input').addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();

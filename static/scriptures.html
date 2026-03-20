@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Words of Truth | truth</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(160deg, #ffffff 0%, #f0f6fc 30%, #ffffff 50%, #fdf5ef 70%, #ffffff 85%, #edf4fb 100%);
+            color: #333;
+        }
+
+        /* Header */
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 60px;
+            padding: 0 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(91, 155, 213, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-logo {
+            font-family: 'Comfortaa', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #5B9BD5;
+            letter-spacing: 2px;
+            text-decoration: none;
+        }
+
+        .header-logo:hover {
+            opacity: 0.8;
+        }
+
+        .back-link {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #5B9BD5;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: opacity 0.2s;
+        }
+
+        .back-link:hover {
+            opacity: 0.7;
+        }
+
+        /* Page content */
+        .page-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 100px 2rem 4rem;
+        }
+
+        .page-hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-hero h1 {
+            font-family: 'Comfortaa', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #5B9BD5;
+            letter-spacing: 2px;
+            margin-bottom: 1.25rem;
+        }
+
+        .page-hero p {
+            font-size: 1.1rem;
+            color: #6a7a8a;
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .divider {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(135deg, #5B9BD5, #7DB8E0);
+            border-radius: 2px;
+            margin: 2.5rem auto;
+        }
+
+        /* Scripture cards */
+        .scriptures {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            padding-bottom: 3rem;
+        }
+
+        .scripture-card {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(91, 155, 213, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .scripture-card.favorite {
+            border-color: rgba(91, 155, 213, 0.3);
+            background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(232,240,248,0.5));
+        }
+
+        .scripture-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #5B9BD5;
+            background: rgba(91, 155, 213, 0.1);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            margin-bottom: 1rem;
+        }
+
+        .scripture-text {
+            font-size: 1.05rem;
+            color: #444;
+            line-height: 1.8;
+            margin-bottom: 0.75rem;
+        }
+
+        .scripture-ref {
+            font-family: 'Comfortaa', sans-serif;
+            font-size: 0.85rem;
+            color: #5B9BD5;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .site-footer {
+            text-align: center;
+            padding: 2rem 1rem 3rem;
+            font-size: 0.8rem;
+            color: #aab;
+        }
+
+        @media (max-width: 600px) {
+            .page-hero h1 { font-size: 2rem; }
+            .page-content { padding: 90px 1.25rem 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <a class="header-logo" href="/">truth</a>
+        <a class="back-link" href="/">&#x2190; Back to chat</a>
+    </header>
+
+    <div class="page-content">
+
+        <div class="page-hero">
+            <h1>Words of Truth</h1>
+            <p>
+                Scriptures that testify of truth, light, and the love of God. These verses have guided seekers of truth for generations.
+            </p>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="scriptures">
+
+            <div class="scripture-card favorite">
+                <div class="scripture-badge">Developer's Favorite</div>
+                <p class="scripture-text">
+                    "Now ye may suppose that this is foolishness in me; but behold I say unto you, that by small and simple things are great things brought to pass; and small means in many instances doth confound the wise."
+                </p>
+                <div class="scripture-ref">Alma 37:6</div>
+            </div>
+
+            <div class="scripture-card">
+                <p class="scripture-text">
+                    "And ye shall know the truth, and the truth shall make you free."
+                </p>
+                <div class="scripture-ref">John 8:32</div>
+            </div>
+
+            <div class="scripture-card">
+                <p class="scripture-text">
+                    "And when ye shall receive these things, I would exhort you that ye would ask God, the Eternal Father, in the name of Christ, if these things are not true; and if ye shall ask with a sincere heart, with real intent, having faith in Christ, he will manifest the truth of it unto you, by the power of the Holy Ghost."
+                </p>
+                <div class="scripture-ref">Moroni 10:4</div>
+            </div>
+
+            <div class="scripture-card">
+                <p class="scripture-text">
+                    "The glory of God is intelligence, or, in other words, light and truth."
+                </p>
+                <div class="scripture-ref">Doctrine and Covenants 93:36</div>
+            </div>
+
+            <div class="scripture-card">
+                <p class="scripture-text">
+                    "For behold, this is my work and my glory — to bring to pass the immortality and eternal life of man."
+                </p>
+                <div class="scripture-ref">Moses 1:39</div>
+            </div>
+
+        </div>
+
+        <div class="site-footer">
+            Powered by the truths found in the restored gospel of Jesus Christ.
+        </div>
+
+    </div>
+
+</body>
+</html>

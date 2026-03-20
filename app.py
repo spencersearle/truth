@@ -43,6 +43,16 @@ def index():
     return send_from_directory("static", "index.html")
 
 
+@app.route("/about")
+def about():
+    return send_from_directory("static", "about.html")
+
+
+@app.route("/scriptures")
+def scriptures():
+    return send_from_directory("static", "scriptures.html")
+
+
 @app.route("/api/chat", methods=["POST"])
 def chat():
     data = request.json
