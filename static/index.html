@@ -4,603 +4,655 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>truth</title>
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Figtree:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --night: #070B18;
+            --indigo: #141B36;
+            --gold: #F2C879;
+            --flame: #FFF3DC;
+            --dusk: #8CA3C9;
+            --parchment: #EAE4D6;
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            height: 100vh;
+        html, body {
+            height: 100%;
             overflow: hidden;
-            background: linear-gradient(160deg, #ffffff 0%, #f0f6fc 30%, #ffffff 50%, #fdf5ef 70%, #ffffff 85%, #edf4fb 100%);
-            color: #333;
+            background: var(--night);
+            color: var(--parchment);
+            font-family: 'Figtree', sans-serif;
         }
 
-        /* Header */
-        .site-header {
+        #sky {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            height: 60px;
-            padding: 0 2rem;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(91, 155, 213, 0.08);
+            inset: 0;
+            display: block;
+        }
+
+        /* ---------- top bar ---------- */
+        .bar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 20;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            padding: 1.4rem 2rem;
+            pointer-events: none;
         }
 
-        .header-left {
+        .bar > * { pointer-events: auto; }
+
+        .wordmark {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-weight: 500;
+            font-size: 1.6rem;
+            letter-spacing: 0.08em;
+            color: var(--flame);
+            text-decoration: none;
+        }
+
+        .bar nav {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 1.75rem;
         }
 
-        .sidebar-toggle {
+        .bar nav a, .bar nav button {
+            font-family: 'Figtree', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--dusk);
             background: none;
             border: none;
             cursor: pointer;
-            color: #5B9BD5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            transition: background 0.2s;
-        }
-
-        .sidebar-toggle:hover {
-            background: rgba(91, 155, 213, 0.1);
-        }
-
-        .sidebar-toggle svg {
-            width: 22px;
-            height: 22px;
-        }
-
-        .header-logo {
-            font-family: 'Comfortaa', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #5B9BD5;
-            letter-spacing: 2px;
             text-decoration: none;
-            cursor: pointer;
+            transition: color 0.25s;
         }
 
-        .header-logo:hover {
-            opacity: 0.8;
+        .bar nav a:hover, .bar nav button:hover { color: var(--gold); }
+
+        .bar nav a:focus-visible, .bar nav button:focus-visible,
+        .chip:focus-visible, .send:focus-visible, .nav-arrow:focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 3px;
+            border-radius: 2px;
         }
 
-        .new-chat-btn {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 0.5rem 1rem;
-            border: 2px solid #5B9BD5;
-            border-radius: 50px;
-            background: transparent;
-            color: #5B9BD5;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .new-chat-btn:hover {
-            background: #5B9BD5;
-            color: white;
-        }
-
-        /* Layout */
-        .app-layout {
-            display: flex;
-            height: 100vh;
-            padding-top: 60px;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 280px;
-            min-width: 280px;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(10px);
-            border-right: 1px solid rgba(91, 155, 213, 0.08);
-            padding: 2rem 1.25rem;
-            transition: margin-left 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .sidebar.hidden {
-            margin-left: -280px;
-        }
-
-        .sidebar-label {
-            font-size: 0.65rem;
-            font-weight: 600;
+        /* ---------- constellation count ---------- */
+        .gathered {
+            position: fixed;
+            top: 5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 15;
+            font-size: 0.72rem;
+            letter-spacing: 0.22em;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #aab;
-            padding: 0 0.75rem;
-            margin-bottom: 0.25rem;
+            color: var(--dusk);
+            opacity: 0;
+            transition: opacity 0.8s;
+            pointer-events: none;
         }
 
-        .sidebar-link {
+        .gathered.visible { opacity: 0.85; }
+        .gathered em { font-style: normal; color: var(--gold); }
+
+        /* ---------- welcome ---------- */
+        .welcome {
+            position: fixed;
+            left: 50%;
+            top: 24%;
+            transform: translateX(-50%);
+            z-index: 10;
+            text-align: center;
+            width: min(680px, 90vw);
+            transition: opacity 0.8s, transform 0.8s;
+            pointer-events: none;
+        }
+
+        .welcome.hidden { opacity: 0; transform: translate(-50%, -14px); }
+
+        .welcome h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-weight: 500;
+            font-size: clamp(2.2rem, 5vw, 3.4rem);
+            color: var(--flame);
+            text-shadow: 0 0 40px rgba(242, 200, 121, 0.25);
+        }
+
+        .welcome p {
+            margin-top: 0.9rem;
+            font-weight: 300;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--dusk);
+        }
+
+        /* ---------- exchange panel ---------- */
+        .console {
+            position: fixed;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            z-index: 10;
+            width: min(720px, 94vw);
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+            padding-bottom: 1.6rem;
+        }
+
+        .panel {
+            display: none;
+            background: rgba(13, 18, 40, 0.72);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(140, 163, 201, 0.16);
+            border-radius: 14px;
+            padding: 1.6rem 1.8rem 1.2rem;
+            box-shadow: 0 12px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .panel.visible { display: block; animation: rise 0.5s ease; }
+
+        @keyframes rise {
+            from { opacity: 0; transform: translateY(14px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .panel .question {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-weight: 500;
+            font-size: 1.35rem;
+            line-height: 1.4;
+            color: var(--gold);
+            margin-bottom: 0.9rem;
+        }
+
+        .panel .answer {
+            font-size: 0.9rem;
+            font-weight: 300;
+            line-height: 1.85;
+            color: var(--parchment);
+            max-height: 38vh;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+
+        .panel .answer strong { color: var(--gold); font-weight: 500; }
+        .panel .answer em { color: var(--dusk); }
+
+        .panel .answer::-webkit-scrollbar { width: 4px; }
+        .panel .answer::-webkit-scrollbar-thumb {
+            background: rgba(140, 163, 201, 0.3);
+            border-radius: 2px;
+        }
+
+        .panel-nav {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 0.85rem 1rem;
-            border-radius: 12px;
-            text-decoration: none;
-            color: #444;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-
-        .sidebar-link:hover {
-            background: rgba(91, 155, 213, 0.08);
-            color: #5B9BD5;
-        }
-
-        .sidebar-link-icon {
-            font-size: 1.3rem;
-            flex-shrink: 0;
-        }
-
-        /* Main chat area */
-        .chat-main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            min-width: 0;
-        }
-
-        .chat-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            padding: 2rem 4rem;
-            overflow: hidden;
-        }
-
-        /* Hero */
-        .hero {
-            text-align: center;
-            padding: 3rem 0 2rem;
-            flex-shrink: 0;
-        }
-
-        .hero-title {
-            font-family: 'Comfortaa', sans-serif;
-            font-size: 4rem;
-            font-weight: 700;
-            color: #5B9BD5;
-            letter-spacing: 6px;
-            margin-bottom: 0.5rem;
-        }
-
-        .hero-subtitle {
-            font-size: 1rem;
-            color: #8a9aaa;
-            font-weight: 400;
-        }
-
-        /* Messages */
-        .messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1.5rem 0;
-            scroll-behavior: smooth;
-        }
-
-        .messages::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .messages::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .messages::-webkit-scrollbar-thumb {
-            background: rgba(91, 155, 213, 0.2);
-            border-radius: 3px;
-        }
-
-        .message {
-            margin-bottom: 1.5rem;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .message.user {
-            display: flex;
             justify-content: flex-end;
+            gap: 0.6rem;
+            margin-top: 0.9rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid rgba(140, 163, 201, 0.12);
         }
 
-        .message.user .bubble {
-            background: linear-gradient(135deg, #5B9BD5, #7DB8E0);
-            color: white;
-            border-radius: 20px 20px 4px 20px;
-            max-width: 70%;
-            padding: 1.25rem 1.5rem;
-            font-size: 0.9rem;
-            line-height: 1.6;
+        .panel-nav .which {
+            font-size: 0.7rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--dusk);
+            margin-right: auto;
         }
 
-        .message.assistant .bubble {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(91, 155, 213, 0.1);
-            border-radius: 20px 20px 20px 4px;
-            max-width: 80%;
-            padding: 1.5rem 1.75rem;
-            font-size: 0.9rem;
-            line-height: 1.8;
-            color: #444;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
-        }
-
-        .message.assistant .bubble strong {
-            color: #5B9BD5;
-        }
-
-        .typing-indicator {
-            display: none;
-            padding: 1rem 1.5rem;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 20px;
-            width: fit-content;
-            margin-bottom: 1rem;
-        }
-
-        .typing-indicator span {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
+        .nav-arrow {
+            width: 30px; height: 30px;
+            border: 1px solid rgba(140, 163, 201, 0.25);
             border-radius: 50%;
-            background: #5B9BD5;
-            margin: 0 2px;
-            animation: bounce 1.4s infinite;
+            background: none;
+            color: var(--dusk);
+            cursor: pointer;
+            font-size: 0.9rem;
+            line-height: 1;
+            transition: all 0.2s;
         }
 
-        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        .nav-arrow:hover:not(:disabled) { color: var(--gold); border-color: var(--gold); }
+        .nav-arrow:disabled { opacity: 0.25; cursor: default; }
 
-        @keyframes bounce {
-            0%, 60%, 100% { transform: translateY(0); }
-            30% { transform: translateY(-8px); }
-        }
-
-        .welcome-message {
-            text-align: center;
-            padding: 2rem 1rem;
-            color: #7a8a9a;
-        }
-
-        .welcome-message h2 {
-            color: #5B9BD5;
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .welcome-message p {
-            font-size: 0.85rem;
-            line-height: 1.7;
-            max-width: 450px;
-            margin: 0 auto;
-        }
-
-        /* Input area */
-        .input-area {
-            flex-shrink: 0;
-            padding: 1.5rem 0 2rem;
-        }
-
-        .input-wrapper {
+        /* ---------- input ---------- */
+        .ask-row {
             display: flex;
-            gap: 0.75rem;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(91, 155, 213, 0.15);
-            border-radius: 28px;
-            padding: 0.75rem 0.75rem 0.75rem 1.75rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-            transition: border-color 0.3s ease;
+            gap: 0.7rem;
+            background: rgba(13, 18, 40, 0.72);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(140, 163, 201, 0.2);
+            border-radius: 999px;
+            padding: 0.45rem 0.45rem 0.45rem 1.5rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
 
-        .input-wrapper:focus-within {
-            border-color: #5B9BD5;
+        .ask-row:focus-within {
+            border-color: rgba(242, 200, 121, 0.55);
+            box-shadow: 0 0 30px rgba(242, 200, 121, 0.12);
         }
 
-        #user-input {
+        .ask {
             flex: 1;
             border: none;
             outline: none;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.95rem;
             background: transparent;
-            color: #333;
+            font-family: 'Figtree', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: var(--parchment);
         }
 
-        #user-input::placeholder {
-            color: #aab;
-        }
+        .ask::placeholder { color: rgba(140, 163, 201, 0.6); }
 
-        .send-btn {
-            font-family: 'Inter', sans-serif;
-            width: 44px;
-            height: 44px;
+        .send {
+            width: 42px; height: 42px;
+            flex-shrink: 0;
             border: none;
             border-radius: 50%;
-            background: linear-gradient(135deg, #5B9BD5, #7DB8E0);
-            color: white;
+            background: radial-gradient(circle at 35% 30%, #FFE9BC, var(--gold) 60%, #C99B4E);
+            color: #1a1204;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
-            flex-shrink: 0;
+            transition: transform 0.25s, box-shadow 0.25s;
+            box-shadow: 0 0 18px rgba(242, 200, 121, 0.35);
         }
 
-        .send-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(91, 155, 213, 0.4);
+        .send:hover:not(:disabled) {
+            transform: scale(1.07);
+            box-shadow: 0 0 28px rgba(242, 200, 121, 0.55);
         }
 
-        .send-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
+        .send:disabled { opacity: 0.45; cursor: default; }
+        .send svg { width: 18px; height: 18px; }
 
-        .send-btn svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        .suggestions {
+        /* ---------- suggestions ---------- */
+        .chips {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
             justify-content: center;
-            margin-top: 1rem;
+            gap: 0.5rem;
+            transition: opacity 0.5s;
         }
 
-        .suggestion {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.75rem;
-            padding: 0.6rem 1rem;
-            border: 1px solid rgba(91, 155, 213, 0.2);
-            border-radius: 50px;
-            background: rgba(255, 255, 255, 0.6);
-            color: #5B9BD5;
+        .chips.hidden { opacity: 0; pointer-events: none; }
+
+        .chip {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 0.95rem;
+            padding: 0.5rem 1.1rem;
+            border: 1px solid rgba(140, 163, 201, 0.25);
+            border-radius: 999px;
+            background: rgba(13, 18, 40, 0.5);
+            color: var(--dusk);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
         }
 
-        .suggestion:hover {
-            background: rgba(91, 155, 213, 0.1);
-            border-color: #5B9BD5;
+        .chip:hover {
+            color: var(--gold);
+            border-color: rgba(242, 200, 121, 0.5);
+            box-shadow: 0 0 16px rgba(242, 200, 121, 0.12);
         }
 
-        /* Mobile */
-        @media (max-width: 768px) {
-            .sidebar {
-                position: fixed;
-                top: 60px;
-                left: 0;
-                bottom: 0;
-                z-index: 90;
-                background: rgba(255, 255, 255, 0.95);
-            }
+        /* ---------- star tooltip ---------- */
+        .tooltip {
+            position: fixed;
+            z-index: 30;
+            max-width: 260px;
+            padding: 0.5rem 0.85rem;
+            background: rgba(13, 18, 40, 0.92);
+            border: 1px solid rgba(242, 200, 121, 0.3);
+            border-radius: 8px;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 0.95rem;
+            color: var(--flame);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.15s;
+        }
 
-            .sidebar.hidden {
-                margin-left: -280px;
-            }
+        .tooltip.visible { opacity: 1; }
 
-            .hero-title { font-size: 2.8rem; }
-            .chat-content { padding: 1.5rem 1.5rem; }
-            .message.user .bubble,
-            .message.assistant .bubble { max-width: 90%; }
+        @media (max-width: 640px) {
+            .bar { padding: 1.1rem 1.2rem; }
+            .bar nav { gap: 1rem; }
+            .bar nav a, .bar nav button { font-size: 0.68rem; }
+            .welcome { top: 19%; }
+            .panel { padding: 1.2rem 1.2rem 1rem; }
+            .panel .answer { max-height: 32vh; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .panel.visible { animation: none; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <header class="site-header">
-        <div class="header-left">
-            <button class="sidebar-toggle" onclick="toggleSidebar()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                    <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
-            </button>
-            <a class="header-logo" onclick="goHome()">truth</a>
-        </div>
-        <button class="new-chat-btn" onclick="resetChat()">new conversation</button>
+    <canvas id="sky"></canvas>
+
+    <header class="bar">
+        <a class="wordmark" href="/">truth</a>
+        <nav>
+            <a href="/about">What is Truth?</a>
+            <a href="/scriptures">Words of Truth</a>
+            <button id="reset-btn">Begin again</button>
+        </nav>
     </header>
 
-    <!-- App Layout -->
-    <div class="app-layout">
+    <div class="gathered" id="gathered"><em id="gathered-n">0</em> <span id="gathered-label">truths gathered</span></div>
 
-        <!-- Sidebar -->
-        <aside class="sidebar hidden" id="sidebar">
-            <div class="sidebar-label">Explore</div>
-            <a class="sidebar-link" href="/about">
-                <span class="sidebar-link-icon">&#x1F4A1;</span>
-                What is Truth?
-            </a>
-            <a class="sidebar-link" href="/scriptures">
-                <span class="sidebar-link-icon">&#x1F4D6;</span>
-                Words of Truth
-            </a>
-        </aside>
+    <div class="welcome" id="welcome">
+        <h1>Seek, and ye shall find.</h1>
+        <p>You stand in the night with one small light before you. Every question you ask kindles it — and every answer becomes a star you keep. Ask about scripture, doctrine, or the things of eternity.</p>
+    </div>
 
-        <!-- Main Chat -->
-        <div class="chat-main">
-            <div class="chat-content">
-
-                <!-- Hero -->
-                <div class="hero">
-                    <h1 class="hero-title">truth</h1>
-                    <p class="hero-subtitle">Discover eternal truth through the restored gospel of Jesus Christ.</p>
-                </div>
-
-                <!-- Messages -->
-                <div class="messages" id="messages">
-                    <div class="welcome-message" id="welcome">
-                        <h2>How can I help you today?</h2>
-                        <p>Ask about scripture, doctrine, gospel principles, or anything you'd like to understand better through the light of the restored gospel.</p>
-                    </div>
-                </div>
-
-                <div class="typing-indicator" id="typing">
-                    <span></span><span></span><span></span>
-                </div>
-
-                <!-- Input -->
-                <div class="input-area">
-                    <div class="input-wrapper">
-                        <input
-                            type="text"
-                            id="user-input"
-                            placeholder="Ask about scripture, doctrine, or gospel questions..."
-                            autocomplete="off"
-                            autofocus
-                        />
-                        <button class="send-btn" id="send-btn" onclick="sendMessage()">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="9 18 15 12 9 6"></polyline>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="suggestions" id="suggestions">
-                        <button class="suggestion" onclick="askSuggestion(this)">What is the Book of Mormon?</button>
-                        <button class="suggestion" onclick="askSuggestion(this)">How can I receive personal revelation?</button>
-                        <button class="suggestion" onclick="askSuggestion(this)">What is the plan of salvation?</button>
-                        <button class="suggestion" onclick="askSuggestion(this)">Who is Jesus Christ?</button>
-                    </div>
-                </div>
-
+    <div class="console">
+        <div class="panel" id="panel">
+            <div class="question" id="panel-q"></div>
+            <div class="answer" id="panel-a"></div>
+            <div class="panel-nav">
+                <span class="which" id="panel-which"></span>
+                <button class="nav-arrow" id="prev-btn" aria-label="Previous truth">&#8249;</button>
+                <button class="nav-arrow" id="next-btn" aria-label="Next truth">&#8250;</button>
             </div>
         </div>
 
+        <div class="ask-row">
+            <input class="ask" id="ask" type="text" placeholder="Ask what you would know&hellip;" autocomplete="off" autofocus />
+            <button class="send" id="send" aria-label="Ask">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="19" x2="12" y2="5"></line>
+                    <polyline points="5 12 12 5 19 12"></polyline>
+                </svg>
+            </button>
+        </div>
+
+        <div class="chips" id="chips">
+            <button class="chip">What is the Book of Mormon?</button>
+            <button class="chip">How can I receive personal revelation?</button>
+            <button class="chip">What is the plan of salvation?</button>
+            <button class="chip">Who is Jesus Christ?</button>
+        </div>
     </div>
 
-    <script>
+    <div class="tooltip" id="tooltip"></div>
+
+    <script type="module">
+        import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
+
+        const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const sessionId = crypto.randomUUID();
-        let isStreaming = false;
 
-        function goHome() {
-            // Close sidebar and reset view
-            document.getElementById('sidebar').classList.add('hidden');
-            document.getElementById('user-input').focus();
+        /* ================= scene ================= */
+
+        const canvas = document.getElementById('sky');
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setClearColor(0x070B18);
+
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x070B18, 0.008);
+
+        const camera = new THREE.PerspectiveCamera(58, window.innerWidth / window.innerHeight, 0.1, 500);
+        camera.position.set(0, 2.5, 26);
+
+        // soft radial glow texture, shared by all lights in the scene
+        function glowTexture(inner, falloff) {
+            const c = document.createElement('canvas');
+            c.width = c.height = 128;
+            const ctx = c.getContext('2d');
+            const g = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+            g.addColorStop(0, inner);
+            g.addColorStop(falloff, 'rgba(242, 200, 121, 0.25)');
+            g.addColorStop(1, 'rgba(242, 200, 121, 0)');
+            ctx.fillStyle = g;
+            ctx.fillRect(0, 0, 128, 128);
+            return new THREE.CanvasTexture(c);
         }
 
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('hidden');
+        const softTex = glowTexture('rgba(255, 243, 220, 1)', 0.25);
+        const starTex = glowTexture('rgba(255, 255, 255, 1)', 0.12);
+
+        /* --- distant starfield: the unanswered night --- */
+        const starCount = 1400;
+        const starPos = new Float32Array(starCount * 3);
+        for (let i = 0; i < starCount; i++) {
+            const r = 90 + Math.random() * 180;
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.acos(2 * Math.random() - 1);
+            starPos[i * 3]     = r * Math.sin(phi) * Math.cos(theta);
+            starPos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta) * 0.6;
+            starPos[i * 3 + 2] = r * Math.cos(phi);
+        }
+        const starGeo = new THREE.BufferGeometry();
+        starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+        const starField = new THREE.Points(starGeo, new THREE.PointsMaterial({
+            size: 1.1, map: starTex, color: 0x8CA3C9, transparent: true,
+            opacity: 0.65, depthWrite: false, blending: THREE.AdditiveBlending
+        }));
+        scene.add(starField);
+
+        /* --- dust drifting toward the light: seekers --- */
+        const dustCount = 320;
+        const dustPos = new Float32Array(dustCount * 3);
+        const dustSpeed = new Float32Array(dustCount);
+        function respawnDust(i) {
+            const r = 25 + Math.random() * 45;
+            const theta = Math.random() * Math.PI * 2;
+            dustPos[i * 3]     = r * Math.cos(theta);
+            dustPos[i * 3 + 1] = (Math.random() - 0.5) * 24;
+            dustPos[i * 3 + 2] = r * Math.sin(theta) - 10;
+            dustSpeed[i] = 0.008 + Math.random() * 0.02;
+        }
+        for (let i = 0; i < dustCount; i++) respawnDust(i);
+        const dustGeo = new THREE.BufferGeometry();
+        dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
+        const dust = new THREE.Points(dustGeo, new THREE.PointsMaterial({
+            size: 0.5, map: softTex, color: 0xF2C879, transparent: true,
+            opacity: 0.5, depthWrite: false, blending: THREE.AdditiveBlending
+        }));
+        scene.add(dust);
+
+        /* --- the Light of Truth --- */
+        const orb = new THREE.Group();
+        const core = new THREE.Mesh(
+            new THREE.SphereGeometry(0.9, 32, 32),
+            new THREE.MeshBasicMaterial({ color: 0xFFF3DC })
+        );
+        orb.add(core);
+
+        const glowLayers = [];
+        [[4.5, 0.9, 0xFFF3DC], [9, 0.5, 0xF2C879], [17, 0.22, 0xF2C879]].forEach(([s, o, col]) => {
+            const sp = new THREE.Sprite(new THREE.SpriteMaterial({
+                map: softTex, color: col, transparent: true, opacity: o,
+                depthWrite: false, blending: THREE.AdditiveBlending
+            }));
+            sp.scale.setScalar(s);
+            sp.userData.baseScale = s;
+            orb.add(sp);
+            glowLayers.push(sp);
+        });
+
+        const light = new THREE.PointLight(0xF2C879, 60, 120, 1.8);
+        orb.add(light);
+        scene.add(orb);
+
+        /* --- constellation of gathered truths --- */
+        const constellation = new THREE.Group();
+        scene.add(constellation);
+        const truthStars = [];   // { sprite, exchangeIndex }
+        const flights = [];      // in-flight star animations
+
+        function addTruthStar(exchangeIndex, question) {
+            const i = truthStars.length;
+            const angle = i * 2.39996;                      // golden angle spacing
+            const radius = 7.5 + (i % 3) * 1.1;
+            const target = new THREE.Vector3(
+                radius * Math.cos(angle),
+                Math.sin(i * 1.7) * 1.8,
+                radius * Math.sin(angle)
+            );
+            const sprite = new THREE.Sprite(new THREE.SpriteMaterial({
+                map: starTex, color: 0xFFE9BC, transparent: true, opacity: 0,
+                depthWrite: false, blending: THREE.AdditiveBlending
+            }));
+            sprite.scale.setScalar(1.7);
+            sprite.userData = { exchangeIndex, question, baseScale: 1.7 };
+            sprite.position.set(0, 0, 0);
+            constellation.add(sprite);
+            truthStars.push(sprite);
+            if (REDUCED) {
+                sprite.position.copy(target);
+                sprite.material.opacity = 1;
+            } else {
+                flights.push({ sprite, target, t0: clock.getElapsedTime() });
+            }
         }
 
-        function askSuggestion(btn) {
-            document.getElementById('user-input').value = btn.textContent;
-            sendMessage();
-        }
+        /* --- interaction: hover + click stars --- */
+        const raycaster = new THREE.Raycaster();
+        const pointer = new THREE.Vector2(-2, -2);
+        const parallax = new THREE.Vector2(0, 0);
+        let hovered = null;
+        const tooltip = document.getElementById('tooltip');
 
-        async function sendMessage() {
-            const input = document.getElementById('user-input');
-            const message = input.value.trim();
-            if (!message || isStreaming) return;
+        window.addEventListener('pointermove', (e) => {
+            pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
+            pointer.y = -(e.clientY / window.innerHeight) * 2 + 1;
+            parallax.set(pointer.x, pointer.y);
+            tooltip.style.left = (e.clientX + 14) + 'px';
+            tooltip.style.top = (e.clientY + 14) + 'px';
+        });
 
-            // Hide welcome and suggestions
-            const welcome = document.getElementById('welcome');
-            if (welcome) welcome.remove();
-            document.getElementById('suggestions').style.display = 'none';
+        canvas.addEventListener('click', () => {
+            if (hovered) viewExchange(hovered.userData.exchangeIndex);
+        });
 
-            // Add user message
-            addMessage(message, 'user');
-            input.value = '';
-            isStreaming = true;
-            document.getElementById('send-btn').disabled = true;
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
 
-            // Show typing
-            document.getElementById('typing').style.display = 'block';
-            scrollToBottom();
+        /* --- animation loop --- */
+        const clock = new THREE.Clock();
+        let streaming = false;
+        let glowTarget = 1;
+        let glowCurrent = 1;
 
-            try {
-                const response = await fetch('/api/chat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message, session_id: sessionId })
-                });
+        function animate() {
+            requestAnimationFrame(animate);
+            const t = clock.getElapsedTime();
 
-                document.getElementById('typing').style.display = 'none';
+            glowCurrent += (glowTarget - glowCurrent) * 0.02;
+            const pulse = REDUCED ? 0
+                : streaming ? Math.sin(t * 6) * 0.07
+                : Math.sin(t * 1.4) * 0.025;
 
-                const bubble = addMessage('', 'assistant');
-                const reader = response.body.getReader();
-                const decoder = new TextDecoder();
-                let fullText = '';
+            glowLayers.forEach((sp) => {
+                sp.scale.setScalar(sp.userData.baseScale * glowCurrent * (1 + pulse));
+            });
+            core.scale.setScalar(glowCurrent * (1 + pulse * 0.5));
+            light.intensity = 60 * glowCurrent * (1 + pulse * 2);
 
-                while (true) {
-                    const { done, value } = await reader.read();
-                    if (done) break;
+            if (!REDUCED) {
+                constellation.rotation.y = t * 0.05;
+                starField.rotation.y = t * 0.004;
 
-                    const chunk = decoder.decode(value);
-                    const lines = chunk.split('\n');
-
-                    for (const line of lines) {
-                        if (line.startsWith('data: ')) {
-                            const data = line.slice(6);
-                            if (data === '[DONE]') continue;
-                            fullText += data;
-                            bubble.innerHTML = formatText(fullText);
-                            scrollToBottom();
-                        }
-                    }
+                const dustArr = dustGeo.attributes.position.array;
+                for (let i = 0; i < dustCount; i++) {
+                    const x = dustArr[i * 3], y = dustArr[i * 3 + 1], z = dustArr[i * 3 + 2];
+                    const d = Math.sqrt(x * x + y * y + z * z);
+                    if (d < 2.5) { respawnDust(i); continue; }
+                    const s = dustSpeed[i] * (streaming ? 3 : 1);
+                    dustArr[i * 3]     -= (x / d) * s;
+                    dustArr[i * 3 + 1] -= (y / d) * s * 0.4;
+                    dustArr[i * 3 + 2] -= (z / d) * s;
                 }
-            } catch (err) {
-                document.getElementById('typing').style.display = 'none';
-                addMessage('I apologize, but I encountered an error. Please try again.', 'assistant');
+                dustGeo.attributes.position.needsUpdate = true;
+
+                // star fly-in from the orb to its place in the constellation
+                for (let i = flights.length - 1; i >= 0; i--) {
+                    const f = flights[i];
+                    const p = Math.min((t - f.t0) / 1.4, 1);
+                    const ease = 1 - Math.pow(1 - p, 3);
+                    f.sprite.position.lerpVectors(new THREE.Vector3(0, 0, 0), f.target, ease);
+                    f.sprite.material.opacity = ease;
+                    if (p >= 1) flights.splice(i, 1);
+                }
+
+                camera.position.x += (parallax.x * 3 - camera.position.x) * 0.03;
+                camera.position.y += (2.5 + parallax.y * 1.5 - camera.position.y) * 0.03;
+                camera.lookAt(0, 0, 0);
             }
 
-            isStreaming = false;
-            document.getElementById('send-btn').disabled = false;
-            input.focus();
-        }
+            // hover detection on gathered stars
+            raycaster.setFromCamera(pointer, camera);
+            const hits = raycaster.intersectObjects(truthStars, false);
+            const hit = hits.length ? hits[0].object : null;
+            if (hit !== hovered) {
+                if (hovered) hovered.scale.setScalar(hovered.userData.baseScale);
+                hovered = hit;
+                if (hovered) {
+                    hovered.scale.setScalar(hovered.userData.baseScale * 1.6);
+                    tooltip.textContent = hovered.userData.question;
+                    tooltip.classList.add('visible');
+                    canvas.style.cursor = 'pointer';
+                } else {
+                    tooltip.classList.remove('visible');
+                    canvas.style.cursor = 'default';
+                }
+            }
 
-        function addMessage(text, role) {
-            const messages = document.getElementById('messages');
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        /* ================= chat ================= */
+
+        const askInput = document.getElementById('ask');
+        const sendBtn = document.getElementById('send');
+        const welcome = document.getElementById('welcome');
+        const chips = document.getElementById('chips');
+        const panel = document.getElementById('panel');
+        const panelQ = document.getElementById('panel-q');
+        const panelA = document.getElementById('panel-a');
+        const panelWhich = document.getElementById('panel-which');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const gathered = document.getElementById('gathered');
+        const gatheredN = document.getElementById('gathered-n');
+        const gatheredLabel = document.getElementById('gathered-label');
+
+        const exchanges = [];   // { q, a }
+        let viewIndex = -1;
+
+        function escapeHtml(text) {
             const div = document.createElement('div');
-            div.className = `message ${role}`;
-            const bubble = document.createElement('div');
-            bubble.className = 'bubble';
-            bubble.innerHTML = role === 'user' ? escapeHtml(text) : formatText(text);
-            div.appendChild(bubble);
-            messages.appendChild(div);
-            scrollToBottom();
-            return bubble;
+            div.textContent = text;
+            return div.innerHTML;
         }
 
         function formatText(text) {
@@ -612,18 +664,111 @@
             return html;
         }
 
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
+        function viewExchange(i) {
+            if (i < 0 || i >= exchanges.length) return;
+            viewIndex = i;
+            panelQ.textContent = exchanges[i].q;
+            panelA.innerHTML = formatText(exchanges[i].a);
+            panelWhich.textContent = `Truth ${i + 1} of ${exchanges.length}`;
+            prevBtn.disabled = i === 0;
+            nextBtn.disabled = i === exchanges.length - 1;
+            panel.classList.add('visible');
         }
 
-        function scrollToBottom() {
-            const messages = document.getElementById('messages');
-            messages.scrollTop = messages.scrollHeight;
+        prevBtn.addEventListener('click', () => viewExchange(viewIndex - 1));
+        nextBtn.addEventListener('click', () => viewExchange(viewIndex + 1));
+
+        async function sendMessage() {
+            const message = askInput.value.trim();
+            if (!message || streaming) return;
+
+            welcome.classList.add('hidden');
+            chips.classList.add('hidden');
+            askInput.value = '';
+            streaming = true;
+            sendBtn.disabled = true;
+
+            exchanges.push({ q: message, a: '' });
+            const idx = exchanges.length - 1;
+            viewExchange(idx);
+
+            let hadError = false;
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message, session_id: sessionId })
+                });
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let buffer = '';
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    buffer += decoder.decode(value, { stream: true });
+                    const frames = buffer.split('\n\n');
+                    buffer = frames.pop();
+                    for (const frame of frames) {
+                        if (!frame.startsWith('data: ')) continue;
+                        const data = frame.slice(6);
+                        if (data === '[DONE]') continue;
+                        if (data === '[ERROR]') { hadError = true; continue; }
+                        let text;
+                        try { text = JSON.parse(data); } catch { text = data; }
+                        exchanges[idx].a += text;
+                        if (viewIndex === idx) {
+                            panelA.innerHTML = formatText(exchanges[idx].a);
+                            panelA.scrollTop = panelA.scrollHeight;
+                        }
+                    }
+                }
+            } catch (err) {
+                hadError = true;
+                exchanges[idx].a = 'Something interrupted the connection. Ask again in a moment.';
+                if (viewIndex === idx) panelA.innerHTML = formatText(exchanges[idx].a);
+            }
+
+            streaming = false;
+            sendBtn.disabled = false;
+
+            if (hadError) {
+                // an unanswered question isn't a gathered truth — show it, but keep no star
+                exchanges.pop();
+                panelWhich.textContent = 'Not gathered — ask again';
+                prevBtn.disabled = exchanges.length === 0;
+                nextBtn.disabled = true;
+                viewIndex = exchanges.length;
+            } else {
+                // the answer becomes a star in the constellation, and the light grows
+                addTruthStar(idx, exchanges[idx].q);
+                glowTarget = Math.min(1 + exchanges.length * 0.09, 2.1);
+                gatheredN.textContent = exchanges.length;
+                gatheredLabel.textContent = exchanges.length === 1 ? 'truth gathered' : 'truths gathered';
+                gathered.classList.add('visible');
+            }
+
+            askInput.focus();
         }
 
-        async function resetChat() {
+        sendBtn.addEventListener('click', sendMessage);
+        askInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        chips.querySelectorAll('.chip').forEach((chip) => {
+            chip.addEventListener('click', () => {
+                askInput.value = chip.textContent;
+                sendMessage();
+            });
+        });
+
+        document.getElementById('reset-btn').addEventListener('click', async () => {
             try {
                 await fetch('/api/reset', {
                     method: 'POST',
@@ -632,22 +777,20 @@
                 });
             } catch (e) {}
 
-            const messages = document.getElementById('messages');
-            messages.innerHTML = `
-                <div class="welcome-message" id="welcome">
-                    <h2>How can I help you today?</h2>
-                    <p>Ask about scripture, doctrine, gospel principles, or anything you'd like to understand better through the light of the restored gospel.</p>
-                </div>
-            `;
-            document.getElementById('suggestions').style.display = 'flex';
-            document.getElementById('user-input').focus();
-        }
+            exchanges.length = 0;
+            viewIndex = -1;
+            panel.classList.remove('visible');
+            welcome.classList.remove('hidden');
+            chips.classList.remove('hidden');
+            gathered.classList.remove('visible');
+            gatheredN.textContent = '0';
+            glowTarget = 1;
 
-        document.getElementById('user-input').addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
+            truthStars.forEach((s) => constellation.remove(s));
+            truthStars.length = 0;
+            flights.length = 0;
+
+            askInput.focus();
         });
     </script>
 </body>
